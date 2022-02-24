@@ -11,6 +11,7 @@ public class MainActivity extends AppCompatActivity {
 
     private TextView tvCount;
     private FloatingActionButton btnUp;
+    private FloatingActionButton btnDown;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,6 +20,7 @@ public class MainActivity extends AppCompatActivity {
 
         tvCount = findViewById(R.id.tv_count);
         btnUp = findViewById(R.id.btn_up);
+        btnDown = findViewById(R.id.btn_down);
 
         btnUp.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -27,5 +29,15 @@ public class MainActivity extends AppCompatActivity {
                 tvCount.setText("" + ++count);
             }
         });
+
+        btnDown.setOnClickListener(onClickButtonDown);
     }
+
+    private final View.OnClickListener onClickButtonDown = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            int count = Integer.parseInt(tvCount.getText().toString());
+            tvCount.setText("" + --count);
+        }
+    };
 }
