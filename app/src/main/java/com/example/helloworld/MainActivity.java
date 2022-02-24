@@ -3,41 +3,36 @@ package com.example.helloworld;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.TextView;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.example.helloworld.databinding.ActivityMainBinding;
 
 public class MainActivity extends AppCompatActivity {
 
-    private TextView tvCount;
-    private FloatingActionButton btnUp;
-    private FloatingActionButton btnDown;
+    private ActivityMainBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        View viewRoot = binding.getRoot();
+        setContentView(viewRoot);
 
-        tvCount = findViewById(R.id.tv_count);
-        btnUp = findViewById(R.id.btn_up);
-        btnDown = findViewById(R.id.btn_down);
-
-        btnUp.setOnClickListener(new View.OnClickListener() {
+        binding.btnUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                int count = Integer.parseInt(tvCount.getText().toString());
-                tvCount.setText("" + ++count);
+                int count = Integer.parseInt(binding.tvCount.getText().toString());
+                binding.tvCount.setText("" + ++count);
             }
         });
 
-        btnDown.setOnClickListener(onClickButtonDown);
+        binding.btnDown.setOnClickListener(onClickButtonDown);
     }
 
     private final View.OnClickListener onClickButtonDown = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            int count = Integer.parseInt(tvCount.getText().toString());
-            tvCount.setText("" + --count);
+            int count = Integer.parseInt(binding.tvCount.getText().toString());
+            binding.tvCount.setText("" + --count);
         }
     };
 }
