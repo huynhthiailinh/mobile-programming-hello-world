@@ -6,12 +6,19 @@ import androidx.lifecycle.ViewModelProvider;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 
 import com.example.helloworld.databinding.ActivityMainBinding;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding binding;
     private MyViewModel model;
+
+    private ArrayAdapter<String> arrayAdapter;
+    private ArrayList<String> arrayList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,11 +27,19 @@ public class MainActivity extends AppCompatActivity {
         View viewRoot = binding.getRoot();
         setContentView(viewRoot);
 
+        arrayList = new ArrayList<>();
+        arrayAdapter = new ArrayAdapter<>(this,
+                android.R.layout.simple_list_item_1,
+                arrayList);
+        binding.lvCount.setAdapter(arrayAdapter);
+
         model = new ViewModelProvider(this).get(MyViewModel.class);
         model.getNumber().observe(this, new Observer<Integer>() {
             @Override
             public void onChanged(Integer integer) {
                 binding.tvCount.setText("" + integer);
+                arrayList.add("" + integer);
+                arrayAdapter.notifyDataSetChanged();
             }
         });
 
@@ -36,6 +51,14 @@ public class MainActivity extends AppCompatActivity {
         });
 
         binding.btnDown.setOnClickListener(onClickButtonDown);
+
+        binding.lvCount.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                arrayList.remove(i);
+                arrayAdapter.notifyDataSetChanged();
+            }
+        });
     }
 
     private final View.OnClickListener onClickButtonDown = new View.OnClickListener() {
